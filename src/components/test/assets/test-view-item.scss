@@ -1,0 +1,38 @@
+.test-view-item{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+    border-top: 4px solid #0C2D48;
+    background-color: #DADADA;
+
+    .answers{
+
+        .answer{
+            padding: 4px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all ease .5s;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px 0;
+            span{
+                font-size: 18px;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            &:hover{
+                background-color: #0C2D48;
+                color: #fff;
+            }
+        }
+
+        .custom-active-answer{
+            background-color: #0C2D48;
+            span{
+                color: #fff;
+            }
+        }
+    }
+}

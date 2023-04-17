@@ -1,0 +1,38 @@
+.slider-container{
+    margin-top: 20px;
+}
+
+.slider-header{
+    background-color: green;
+    position: sticky;
+}
+
+.slider-body{
+    width: 100%;
+    height: 400px;
+    // overflow-x: scroll;
+    // overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+    position: relative;
+}
+
+.items-container{
+    background-color: red;
+}
+
+.slider-item{
+    display: inline-block;
+    padding: 10px;
+}
+
+
+::-webkit-scrollbar {
+   display: none;
+  }
+
+  .card{
+    width: 300px;
+    margin: 0 10px;
+  }

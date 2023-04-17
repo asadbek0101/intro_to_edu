@@ -1,0 +1,26 @@
+.menu-item-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 56px;
+    padding: 0 20px;
+    text-decoration: none;
+    color: #ccc;
+    transition: all ease .5s;
+
+    .menu-item-icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.4);
+        color: #ccc;
+    }
+}
+
+.active-link{
+    background-color: rgba(0, 0, 0, 0.4);
+}

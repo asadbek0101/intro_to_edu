@@ -1,0 +1,8 @@
+.menu-item-icon{
+    transform: rotateZ(0deg);
+    transition: all ease .6s;
+}
+
+.menu-item-icon-active{
+    transform: rotateZ(90deg);
+}

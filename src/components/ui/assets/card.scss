@@ -1,0 +1,19 @@
+.custom-card{
+    width: 100%;
+    border: 2px solid #ccc;
+    padding: 10px;
+    // border: 2px solid #0C2D48;
+
+    img{
+        min-height: 200px;
+    }
+
+    .custom-card-button{
+        width: 100%;
+        border: none;
+        padding: 10px 0;
+        background-color: #0C2D48;
+        color: #fff;
+        font-size: 18px;
+    }
+}
