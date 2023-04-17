@@ -7,7 +7,6 @@ import UserHomeContainer from "./user/UserHomeContainer"
 import UserGlassoryContainer from "./user/UserGlassoryContainer"
 import UserTestContainer from "./user/UserTestContainer"
 import AdminUsersContainer from "./admin/AdminUsersContainer"
-import AuthContainer from "./auth/AuthContainer"
 import AdminArticlesContainer from "./admin/AdminArticlesContainer"
 import UserArticleContainer from "./user/UserArticleContainer"
 import PageNotFoundContainer from "./PageNotFoundContainer"
@@ -21,7 +20,6 @@ export default function AppContainer(){
                 <Route path="/glassory/:tab?" element={<UserGlassoryContainer/>}/>
                 <Route path="/test" element={<UserTestContainer/>}/>
             </Route>
-            <Route path="/auth" element={<AuthContainer/>}/>
             <Route path="/admin" element={<AdminContainer/>}>
                 <Route path="/admin/users" element={<AdminUsersContainer/>}/>
                 <Route path="/admin/articles" element={<AdminArticlesContainer/>}/>

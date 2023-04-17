@@ -1,19 +1,50 @@
 import React, { ReactNode, useCallback, useState } from "react";
 import AuthLayout from "./AuthLayout";
 import AuthLoginForm from "./AuthLoginForm";
+import AuthRegisterForm from "./AuthRegisterForm";
+import { USERS } from "../admin/data/users";
 
-interface AuthFormWrapperProps{
-    readonly submit: (value: any) => void;
+enum FormType{
+    Register = "register",
+    Login = "login"
 }
 
-export default function AuthFormWrapper({submit}:AuthFormWrapperProps){
+interface AuthFormWrapperProps{
+    readonly register: (value: any) => void;
+    readonly login: (value: any) => void;
+}
 
-    const [initialValues, setInitialValues] = useState({ email: "", password: "" });
-    
-    
+export default function AuthFormWrapper({register, login}:AuthFormWrapperProps){
+
+    const [formType, setFormType] = useState(FormType.Login);
+    const [registerInitialValues, setRegisterInitialValues] = useState({ 
+        email: "", 
+        username: "",
+        password: "" 
+    });
+
+    const [loginInitialValues, setLoginInitialValues] = useState({ 
+        email: "", 
+        password: "" 
+    });
+
+
     return (
         <AuthLayout>
-            <AuthLoginForm initialValues={initialValues} setInitialValues={setInitialValues} onSubmit={submit}/>
+            {formType === FormType.Login && (
+                <AuthLoginForm 
+                    initialValues={loginInitialValues} 
+                    setInitialValues={setLoginInitialValues} 
+                    onChangeToRegister={()=>setFormType(FormType.Register)}
+                    onSubmit={login}/>
+            )}
+            {formType === FormType.Register && (
+                <AuthRegisterForm 
+                    initialValues={registerInitialValues} 
+                    setInitialValues={setRegisterInitialValues} 
+                    onChangeToLogin={()=>setFormType(FormType.Login)}
+                    onSubmit={register}/>
+            )}
         </AuthLayout>
     )
 }

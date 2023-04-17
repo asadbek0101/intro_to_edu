@@ -4,6 +4,7 @@ import Button from "../../button/Button";
 import AdminTestItemForm from "./AdminTestItemForm";
 import AdminTestItem from "./AdminTestItem";
 import { ContainerPageType } from "../../../api/AppDto";
+import Title from "../../ui/Title";
 
 export enum AdminTestDetailTabs{
     TestList = "test-list",
@@ -74,10 +75,19 @@ export default function AdminTestDetailsForm({test}:Props){
                     customId={id}
                     submit={(value:any) => addQuestion(value)}
                     selectValue={selectValue}
+                    cancel={()=>{
+                        search.set("test",AdminTestDetailTabs.TestList)
+                        setSearch(search)
+                    }}
                 />
             )}
             {page === AdminTestDetailTabs.TestList && (
                 <div>
+                    <Title
+                        className="mt-1"
+                        >
+                        {test.testTitle}
+                    </Title>
                     {questions && questions.map((_question: any, index: number)=>{
                         return (
                             <AdminTestItem 

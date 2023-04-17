@@ -15,11 +15,17 @@ const validationSchema = object({
 
 interface Props{
     readonly submit: (value: any) => void;
+    readonly cancel: () => void;
     readonly customId: number;
     readonly selectValue: any;
 }
 
-export default function AdminTestItemForm({submit, customId, selectValue}:Props){
+export default function AdminTestItemForm({
+    submit,
+    cancel, 
+    customId, 
+    selectValue
+}:Props){
 
     const [initialValues, setInitialValues] = useState({
         id: customId,
@@ -98,6 +104,12 @@ export default function AdminTestItemForm({submit, customId, selectValue}:Props)
                                     })}
                                 </div>
                                 <div className="col-12 mt-2 d-flex gap-1 justify-content-end">
+                                    <Button 
+                                        className="bg-danger px-2 py-1 text-light"
+                                        onClick={()=>cancel()}
+                                        >
+                                        Cancel
+                                    </Button>
                                     <Button 
                                         className="bg-warning px-2 py-1 text-light"
                                         onClick={()=>addAnswer()}

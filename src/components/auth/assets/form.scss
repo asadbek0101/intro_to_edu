@@ -1,10 +1,18 @@
 .auth-form{
-    background-color: #fff;
+    // background-color: #fff;
     padding: 20px 14px;
     border-radius: 2px;
-    border-top: 4px solid #2e5c87;
+    // border-top: 4px solid #2e5c87;
+
+    .link-to-register-form{
+        color: blue;
+        font-weight: bold;
+        cursor: pointer;
+        
+    }
 }
 
 .auth-layout{
     background-color: #E8EAED;
+    padding: 0 20px;
 }
