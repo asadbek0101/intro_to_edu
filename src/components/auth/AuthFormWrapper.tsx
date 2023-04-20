@@ -19,8 +19,9 @@ export default function AuthFormWrapper({register, login}:AuthFormWrapperProps){
     const [formType, setFormType] = useState(FormType.Login);
     const [registerInitialValues, setRegisterInitialValues] = useState({ 
         email: "", 
-        username: "",
-        password: "" 
+        phoneNumber: "",
+        password: "",
+        fullName: ""
     });
 
     const [loginInitialValues, setLoginInitialValues] = useState({ 

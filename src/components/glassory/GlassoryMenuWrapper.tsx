@@ -1,22 +1,37 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Title from "../ui/Title";
-import Card from "../ui/Card";
+import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
+import { useCallback, useEffect, useState } from "react";
+import GlassoryMenu from "./GlassoryMenu";
 
 export default function GlassoryMenuWrapper(){
 
-    const navigater = useNavigate();
+    const navigate = useNavigate();
+    const { GlossaryApi } = useGlossaryApiContext();
+    const [glassores, setGlassores] = useState([])
+    const [search, setSearch] = useSearchParams();
 
+    useEffect(()=>{
+        GlossaryApi.getAllGlossares().then((response: any)=>{
+            setGlassores(response.data.data)
+        }).catch((error: any)=>{
+            console.log(error)
+        })
+    },[GlossaryApi, setGlassores])
+
+    const onChangeGlassory = useCallback((value: any)=>{
+        navigate(`/glassory/${value.id}`)
+    },[navigate])
 
     return (
         <div className="container">
                 <Title>
                     Glassorylar
                 </Title>
-                <div className="row">
-                <div className="col-3">
-                    <Card setEntity={(value: any)=>navigater("/glassory")}/>
-                </div>
-            </div>
+                <GlassoryMenu
+                    menu={glassores}
+                    onChangeMenu={onChangeGlassory}
+                    />
         </div>
     )
 }

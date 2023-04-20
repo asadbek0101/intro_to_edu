@@ -1,5 +1,6 @@
 import MenuItem from "../app/MenuItem";
 import ArticleIcon from "../icons/ArticleIcon";
+import BookIcon from "../icons/BookIcon";
 import GlassoryIcon from "../icons/GlassoryIcon";
 import TestIcon from "../icons/TestIcon";
 import UserIcon from "../icons/UserIcon";
@@ -19,14 +20,19 @@ export default function AdminSidebarMenuWrapper(){
                 Articles
             </MenuItem>
             <MenuItem 
+                to="/admin/glassoryes"
+                icon={<GlassoryIcon/>}>
+                Glossares
+            </MenuItem>
+            <MenuItem 
                 to="/admin/tests"
                 icon={<TestIcon/>}>
                 Tests
             </MenuItem>
             <MenuItem 
-                to="/admin/glassoryes"
-                icon={<GlassoryIcon/>}>
-                Glassorys
+                to="/admin/literature"
+                icon={<BookIcon/>}>
+                Literatures
             </MenuItem>
         </AdminSidebarLayout>
     )

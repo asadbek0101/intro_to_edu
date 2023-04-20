@@ -1,44 +1,56 @@
 import { useEffect, useState, useMemo, useCallback } from "react"
-import ArticleView from "./ArticleView";
-import axios from "axios";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
+import ArticleView from "./ArticleView";
+import { useArticleApiContext } from "../../api/article/ArticleApiContext";
 
-export default function ArticleViewWrapper(){
+export default function GlassoryViewWrapper(){
 
-    const [ articleTitles, setArticleTitles ] = useState([]);
-    const [ articleMenus, setArticleMenu ] = useState([]);
-    const [ articleDetails, setArticleDetails ] = useState({});
-    const [ search, setSearch ] = useSearchParams();
-    const articleId:any = useMemo(()=>search.get("articleId")? Number(search.get("articleId")) : 1 ,[search])
-    const { tab = "jewelery" }  = useParams();
-    const navigator = useNavigate();
+    const { ArticleApi } = useArticleApiContext();
+    const [search, setSearch] = useSearchParams();
+    const [articleDetailsMenu, setArticleDetailsMenu] = useState<any>([])
+    const [articleDetails, setArticleDetails] = useState<any>({})
 
-    useEffect(()=>{
-        axios.get(`https://fakestoreapi.com/products/category/${tab}`).then((response:any)=>setArticleTitles(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticleTitles, tab]);  
-    
-    useEffect(()=>{
-        axios.get(`https://fakestoreapi.com/products/categories`).then((response:any)=>setArticleMenu(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticleMenu]);
+    const articleId:any = useMemo(()=>search.get("articleId")? Number(search.get("articleId")):"",[search])
+    const articleDetailsId:any = useMemo(()=>search.get("articleDetailsId")? Number(search.get("articleDetailsId")):"",[search])
+
+    const { tab } = useParams();
+
 
     useEffect(()=>{
-        axios.get(`https://fakestoreapi.com/products/${articleId}`).then((response:any)=>setArticleDetails(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticleDetails, articleId]);
+        if(tab){
+            ArticleApi.getArticlePartsById(Number(tab)).then((response: any)=>{
+                response.data.data.map((menu: any)=>{
+                    const data = {
+                        title: menu.name,
+                        id: menu.id
+                    }
+                    setArticleDetailsMenu((prev: any)=>[...prev, data])
+                })
+            }).catch((error: any)=>{
+                console.log(error)
+            })
+        }
+    },[ArticleApi, setArticleDetailsMenu, tab])
 
-    const setMenu = useCallback((value: any)=>{
-        navigator(`/article/${value}`)
-    },[navigator])
 
-    const setTitle = useCallback((value: any)=>{
-        search.set("articleId", value.id);
-        setSearch(search);
-    },[setSearch])
+    useEffect(()=>{
+        if(articleDetailsId){
+            ArticleApi.getArticlePartById(articleDetailsId).then((response: any)=>{
+                setArticleDetails(response.data.data.articleDTO)
+            }).catch((error: any)=>{
+                console.log(error)
+            })
+        }
+    },[ArticleApi, setArticleDetails, articleDetailsId])
+
 
     return ( <ArticleView 
-                articleDetails={articleDetails} 
-                articleMenus={articleMenus} 
-                articleTitles={articleTitles}
-                setMenu={(value)=>setMenu(value)}
-                setTitle={(value)=>setTitle(value)}
-                /> )
+                setMenu={(id: string)=>{
+                    setSearch({articleDetailsId: id})
+                }}
+                activeTab={tab}
+                articleMenus={articleDetailsMenu}
+                articleDetails={articleDetails}
+        /> )
 }

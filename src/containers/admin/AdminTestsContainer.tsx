@@ -24,6 +24,9 @@ export default function AdminTestsContainer(){
                     create={()=>{
                         setSearch({pageType: ContainerPageType.Form})
                     }}
+                    editTest={(value: any)=>{
+                        setSearch({pageType: ContainerPageType.Form, testId: value.id})
+                    }}
                     />
             )}
             {pageType === ContainerPageType.Details && (

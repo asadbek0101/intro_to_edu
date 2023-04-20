@@ -1,17 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "../../button/Button";
 import TabPage from "../../tabs/TabPage";
 import AdminTestTable from "./AdminTestTable";
-import { TEST_TITLES } from "../data/tests";
+import { useTestApiContext } from "../../../api/test/TestApiContext";
+import { toast } from "react-toastify";
 
 interface Props{
     readonly create: () => void;
     readonly onChangeTest: (value: any) => void;
+    readonly editTest: (value: any) => void;
 }
 
-export default function AdminTestTableWrapper({create, onChangeTest}:Props){
+export default function AdminTestTableWrapper({
+    create, 
+    onChangeTest,
+    editTest
+}:Props){
 
-    const [data, setData] = useState(TEST_TITLES);
+    const [data, setData] = useState([]);
+    const { TestApi } = useTestApiContext();
+
+    useEffect(()=>{
+        TestApi.getAllTests().then((response: any)=>{
+            setData(response.data.data)
+        }).catch((error: any)=>{
+            console.log(error)
+        })
+    },[TestApi, setData])
+
+    const deleteTest = useCallback((value: any)=>{
+        const id = Number(value.id)
+        TestApi.deleteTest(id).then(()=>{
+            toast.success("Deleted!")
+            window.location.reload()
+        }).catch(()=>{
+            toast.error("Not Deleted!")
+        })
+    },[TestApi, toast])
 
     return (
         <TabPage
@@ -25,7 +50,12 @@ export default function AdminTestTableWrapper({create, onChangeTest}:Props){
             }
             childrenClassName="p-2"
             >
-            <AdminTestTable data={data} onChangeTest={onChangeTest}/>
+            <AdminTestTable 
+                data={data} 
+                onChangeTest={onChangeTest}
+                deleteTest={deleteTest}
+                editTest={editTest}
+                />
         </TabPage>
     )
 }

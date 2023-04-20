@@ -1,0 +1,44 @@
+.app-dashboard-layout{
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .app-dashboard-menu-wrapper{
+        width: 300px;
+        height: 72vh;
+        overflow: hidden;
+        overflow-y: scroll;
+        background-color: #F0F0F0;
+
+        .app-dashboard-menu{
+            width: 100%;
+
+            .app-dashboard-menu-item{
+                padding: 6px 20px;
+                margin: 2px 0;
+                cursor: pointer;
+                transition: all ease 1s;
+
+                span{
+                    font-size: 18px;
+                    font-family: 'Roboto', sans-serif;
+                }
+            }
+
+            .active-dashboard-menu-item{
+                background-color: rgba(32, 46, 65, 0.1);
+                span{
+                    color: rgba(21,92,172,1.00);
+                }
+            }
+        }
+    }
+
+    .app-dashboard-content-wrapper{
+        width: calc(100% - 300px); 
+        height: 72vh;
+        background-color: #F0F0F0;
+        padding: 20px;
+    }
+    
+}

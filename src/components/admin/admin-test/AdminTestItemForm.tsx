@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import InputField from "../../form/InputField";
 import { object, string } from "yup";
 import TextAreaField from "../../form/TextAreaField";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import Button from "../../button/Button";
 import GroupBox from "../../app/GroupBox";
 import { update } from "immupdate";
@@ -16,29 +16,17 @@ const validationSchema = object({
 interface Props{
     readonly submit: (value: any) => void;
     readonly cancel: () => void;
-    readonly customId: number;
-    readonly selectValue: any;
+    readonly initialValues: any;
+    readonly setInitialValues: (value: any) => void;
 }
 
 export default function AdminTestItemForm({
+    initialValues,
+    setInitialValues,
     submit,
     cancel, 
-    customId, 
-    selectValue
 }:Props){
-
-    const [initialValues, setInitialValues] = useState({
-        id: customId,
-        question: "",
-        answers: []
-    })
-
-    useEffect(()=>{
-        if(selectValue){
-            setInitialValues(selectValue)
-        }
-    },[selectValue, setInitialValues])
-
+    
     const onChangeQuestion = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
             question: value
@@ -47,7 +35,7 @@ export default function AdminTestItemForm({
 
     const addAnswer = useCallback(()=>{ 
         const newAnswer: any = {
-            isCorrect: false,
+            isRight: false,
             answer: ""
         }
         let oldAnswers: any = [...initialValues.answers]
@@ -67,7 +55,7 @@ export default function AdminTestItemForm({
 
     const onChangeCorrect = useCallback((value: any, index: number)=>{
         let oldAnswers: any = [...initialValues.answers]
-        oldAnswers[index].isCorrect = value;
+        oldAnswers[index].isRight = value;
         setInitialValues((prev: any)=>update(prev, {
             answers: oldAnswers,
         }))
@@ -88,15 +76,15 @@ export default function AdminTestItemForm({
                                <div className="row">
                                 <div className="col-12">
                                     <TextAreaField label="Question" name="question" onChange={(event: any)=>onChangeQuestion(event.target.value)}/>
-                                    {initialValues.answers.map((item: any, index: number)=>{
+                                    {initialValues && initialValues.answers.map((item: any, index: number)=>{
                                         return (
                                             <InputGroup label={`Answer ${index + 1}`} className="my-2">
-                                                <CheckBox name={`isCorrect${index}`} value={item.isCorrect} onChange={(value: any)=>onChangeCorrect(value, index)}/>
+                                                <CheckBox name={`isRight${index}`} value={item.isRight} onChange={(value: any)=>onChangeCorrect(value, index)}/>
                                                 <InputField 
                                                 key={index}
                                                 value={item.answer}
-                                                name={`answer${index}`} 
-                                                className="border-0"
+                                                name={`answer${index}`}
+                                                className="border-0 w-100"
                                                 onChange={(event: any)=>onChangeAnswer(event.target.value, index)}
                                                 />
                                             </InputGroup>

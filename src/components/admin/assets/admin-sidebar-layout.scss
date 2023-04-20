@@ -6,10 +6,13 @@
     .admin-sidebar-header{
         width: 100%;
         height: 8vh;
-        background-color: red;
         display: flex;
         justify-content: center;
         align-items: center;
+        span{
+            color: white;
+        }
+        border-bottom: 1px solid white;
     }
 
     .admin-sidebar-menu{

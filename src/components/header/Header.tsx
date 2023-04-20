@@ -1,11 +1,16 @@
 import "./assets/header.scss";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import Logo from "../ui/Logo";
 import Marquee from "react-fast-marquee";
 import Modal from "../modal/Modal";
 import AuthFormWrapper from "../auth/AuthFormWrapper";
 import { USERS } from "../admin/data/users";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { set_token } from "../../redux/action";
+import HeaderDropdown from "./HeadeDropdown";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 enum RoleType{
     SuperAdmin = "super-admin",
@@ -14,54 +19,42 @@ enum RoleType{
 }
 
 export default function Header(){
-
+    const dispatch = useDispatch();
     const [isModal, setIsModal] = useState(false);
-    const [users, setUsers] = useState(USERS);
-    const [roleType, setRoleType] = useState("");
-    const [user, setUser] = useState<any>({});
+    const profile = useSelector((state: any)=>state.data.profile) 
 
     const navigator = useNavigate();
 
     const register = useCallback((value: any)=>{
-        let exitsUser = users.filter((user: any)=>user.email === value.email)
-        if(exitsUser.length != 0){
-            alert("Bu foydalanuvchi bizda bor")
-        }else{
-            const id: any = users? users[users.length -1 ].id + 1 : 1
-            const newUser = {
-                ...value,
-                id: id,
-                createdDate: "17.04.2023",
-                updatedDate: "17.04.2023",
-                role: "user"
-            }
-            setUsers([...users, newUser])
-        }
-    },[users, setUsers])
+        axios.post("http://16.16.110.106:8080/api/v1/auth/register", value).then((response: any)=> {
+            toast.success("Siz ro'yxatdan o'tdingiz!")
+            window.location.reload()
+        }).catch((error: any)=>console.log(error))
+    },[axios])
 
     const login = useCallback((value: any)=>{
-        let exitsUser = users.filter((user: any)=>user.email === value.email && user.password === value.password)[0]
-        console.log(exitsUser)
-        if(exitsUser.role === "super-admin"){
-            setRoleType(RoleType.SuperAdmin)
-            setUser(exitsUser)
-        }else if(exitsUser.role === "admin"){
-            setRoleType(RoleType.Admin)
-            setUser(exitsUser)
-        }else if(exitsUser.role === "user"){
-            setRoleType(RoleType.User)
-            setUser(exitsUser)
-        }else{
-            alert("Nimadir xator kiritildi")
-        }
-    },[users, setRoleType, RoleType, setUser])
+        axios.post("http://16.16.110.106:8080/api/v1/auth/login", value).then((response: any)=> {
+            dispatch(set_token(response.data.data.accessToken))
+            window.location.reload()
+        }).catch((error: any)=>console.log(error))
+    },[dispatch, axios, set_token])
 
+    const handleClick = useCallback((value: any)=>{
+        if(value === "Admin"){
+            navigator("/admin/users")
+        }else if(value === "Main"){
+            navigator("/")
+        }else if(value === "Logout"){
+            navigator("/")
+            localStorage.removeItem("TOKEN")
+            window.location.reload()
+        }
+    },[navigator])
 
     return (
         <header id="user-header">
             <div className="container">
                 <div className="logo-group">
-                    {/* <span>Ta'limga Kirish</span> */}
                     <Logo/>
                 </div>
 
@@ -72,21 +65,26 @@ export default function Header(){
                             <span>N.N. Zaxirova</span>
                         </Marquee>
                     </div>
-                    {(roleType === RoleType.SuperAdmin || roleType === RoleType.Admin) && (
-                    <button
-                        className="login-button"
-                        onClick={()=>navigator('/admin/users')}
+                    <button 
+                        className="login-button ms-3"
+                        onClick={()=>navigator("/")}
                         >
-                        {user.username}
+                        Asosiy
                     </button>
+                    {profile.roles && (
+                        <HeaderDropdown
+                            handleClick={(value: any)=>handleClick(value)}
+                            profile={profile}
+                            />
                     )}
+                    {!profile.roles && (
                     <button 
                         className="login-button ms-3"
                         onClick={()=>setIsModal(true)}
                         >
                         Kirish
                     </button>
-
+                    )}
                     <Modal
                         show={isModal}
                         closeHandler={()=>setIsModal(false)}

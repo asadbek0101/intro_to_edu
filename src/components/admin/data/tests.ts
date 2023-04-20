@@ -1,18 +1,9 @@
 export const TEST_TITLES = [
     {
-        id: 1,
-        createdDate: "20.02.2023",
-        updatedDate: "17.04.2023",
-        testTitle: "Matematika asoslari fanidan savollar",
-        testCount: 10,
-        testTimeLimit: 60,
-        testStatus: false,
-    },
-    {
         id: 2,
         createdDate: "20.02.2023",
         updatedDate: "17.04.2023",
-        testTitle: "Dasturlash tillari vazifalari haqida",
+        testTitle: "Talimga kirish fanidan testlar",
         testCount: 10,
         testTimeLimit: 60,
         testStatus: true,

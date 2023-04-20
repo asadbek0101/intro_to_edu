@@ -1,42 +1,38 @@
-import axios from "axios";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Title from "../ui/Title";
+import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Card from "../ui/Card";
+import ArticleMenu from "./ArticleMenu";
+import { useArticleApiContext } from "../../api/article/ArticleApiContext";
 
-export default function ArticleMenuWrapper(){
+export default function GlassoryMenuWrapper(){
 
-    const [article, setArticle] = useState<any>([]);
-    const navigater = useNavigate();
-
+    const navigate = useNavigate();
+    const { ArticleApi } = useArticleApiContext();
+    const [articles, setArticles] = useState([])
+    const [search, setSearch] = useSearchParams();
 
     useEffect(()=>{
-        axios.get('https://fakestoreapi.com/products/categories').then((response: any)=>setArticle(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticle])
+        ArticleApi.getAllAricleTitles().then((response: any)=>{
+            setArticles(response.data.data)
+        }).catch((error: any)=>{
+            console.log(error)
+        })
+    },[ArticleApi, setArticles])
 
     const onChangeArticle = useCallback((value: any)=>{
-        navigater(`/article/${value}`)
-    },[navigater])
+        navigate(`/article/${value.id}`)
+    },[navigate])
 
     return (
         <div className="container">
-            <Title className="mt-1">
-                Maqolalar
-            </Title>
-            <div className="row">
-                { article && article.map((item: any)=>{
-                    let entity = {
-                        title: item.toUpperCase()
-                    }
-                    return (
-                    <div className="col-3">
-                        <Card entity={entity} setEntity={(value: any)=>onChangeArticle(value.title.toLowerCase())}/>
-                    </div>
-                    )
-                })
-                }
-                
-            </div>
+                <Title>
+                    Maqolalar
+                </Title>
+                <ArticleMenu
+                    menu={articles}
+                    onChangeMenu={onChangeArticle}
+                    />
         </div>
     )
 }

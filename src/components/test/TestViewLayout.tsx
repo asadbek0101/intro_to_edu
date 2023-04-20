@@ -5,12 +5,17 @@ import Button from "../button/Button";
 interface Props{
     readonly children: ReactNode;
     readonly data: any;
+    readonly submitTest: () => void;
 }
 
-export default function TestViewLayout({children, data}:Props){
+export default function TestViewLayout({
+    children, 
+    data,
+    submitTest
+}:Props){
 
     const isCheckendFunc = useCallback((value: any)=>{
-        let found = value.answers.filter((item: any)=>item.isCheckend)
+        let found = value.answers.filter((item: any)=>item.isRight)
         return found.length > 0
     },[])
 
@@ -23,7 +28,7 @@ export default function TestViewLayout({children, data}:Props){
                 </div>
                 <div className="col-4 mt-3">
                     <div className="count-view d-flex">
-                        {data.testQuestions && data.testQuestions.map((item: any, index: number)=>{
+                        {data.questions && data.questions.map((item: any, index: number)=>{
                             return (
                                 <div key={index} className={`count-item ${isCheckendFunc(item)? "custom-active-count-item": ""}`}>
                                     <span>{index + 1}</span>
@@ -32,7 +37,9 @@ export default function TestViewLayout({children, data}:Props){
                         })}
                     </div>
                     <div className="button-group">
-                        <Button className="rounded-0 w-100 text-light bg-default mt-2 py-2 hover-none">Tugatish</Button>
+                        <Button 
+                            onClick={submitTest}
+                            className="rounded-0 w-100 text-light bg-default mt-2 py-2 hover-none">Tugatish</Button>
                     </div>
                 </div>
                 </div>

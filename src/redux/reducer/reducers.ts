@@ -5,7 +5,10 @@ const initialState = {
       window.localStorage.getItem("menuStatus") !== null
         ? window.localStorage.getItem("menuStatus")
         : "Opened",
-    profile: window.localStorage.getItem("token")? jwtDecode(`${window.localStorage.getItem("token")}`):{}
+    profile: window.localStorage.getItem("TOKEN")? jwtDecode(`${window.localStorage.getItem("TOKEN")}`):{},
+    token: window.localStorage.getItem("TOKEN") !== null
+    ? window.localStorage.getItem("TOKEN")
+    : "",
   };
   
   export const reducers = (state = initialState, { type, payload }:any) => {
@@ -22,6 +25,12 @@ const initialState = {
         ...state,
         profile: user,
       };
+      case "SET_TOKEN":
+      localStorage.setItem("TOKEN", payload)
+      return {
+        ...state,
+        token: payload
+      }
       default:
         return state;
     }

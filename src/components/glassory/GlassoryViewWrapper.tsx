@@ -1,33 +1,49 @@
 import { useEffect, useState, useMemo, useCallback } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import GlassoryView from "./GlassoryView";
-import axios from "axios";
+import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
 
 export default function GlassoryViewWrapper(){
 
-    const [ articleMenus, setArticleMenu ] = useState([]);
-    const [ articleDetails, setArticleDetails ] = useState({});
-    const [ search, setSearch ] = useSearchParams();
+    const { GlossaryApi } = useGlossaryApiContext();
+    const [search, setSearch] = useSearchParams();
+    const [glassoryDetailsMenu, setGlassoryDetailsMenu] = useState<any>([])
+    const [glassoryDetails, setGlassoryDetails] = useState<any>({})
 
-    const { tab = 1 } = useParams();
+    const glassoryId:any = useMemo(()=>search.get("glassoryId")? Number(search.get("glassoryId")):"",[search])
+    const glassoryDetailsId:any = useMemo(()=>search.get("glassoryDetailsId")? Number(search.get("glassoryDetailsId")):"",[search])
 
-    const navigator = useNavigate();
+    const { tab } = useParams();
+
 
     useEffect(()=>{
-        axios.get(`https://fakestoreapi.com/products`).then((response:any)=>setArticleMenu(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticleMenu]);
+        if(tab){
+            GlossaryApi.getAllGlossaryDetails(Number(tab)).then((response: any)=>{
+                setGlassoryDetailsMenu(response.data.data)
+            }).catch((error: any)=>{
+                console.log(error)
+            })
+        }
+    },[GlossaryApi, setGlassoryDetailsMenu, tab])
+
 
     useEffect(()=>{
-        axios.get(`https://fakestoreapi.com/products/${tab}`).then((response:any)=>setArticleDetails(response.data)).catch((error: any)=>console.log(error))
-    },[axios, setArticleDetails, tab]);
+        if(glassoryDetailsId){
+            GlossaryApi.getGlossaryDetailsById(glassoryDetailsId).then((response: any)=>{
+                setGlassoryDetails(response.data.data)
+            }).catch((error: any)=>{
+                console.log(error)
+            })
+        }
+    },[GlossaryApi, setGlassoryDetails, glassoryDetailsId])
 
-    const setMenu = useCallback((value: any)=>{
-        navigator(`/glassory/${value.id}`)
-    },[navigator])
 
     return ( <GlassoryView 
-                glassoryDetails={articleDetails} 
-                glassoryMenus={articleMenus} 
-                setMenu={(value)=>setMenu(value)}
-                /> )
+                glassoryMenus={glassoryDetailsMenu}
+                glassoryDetails={glassoryDetails}
+                activeTab={glassoryDetailsId}
+                setMenu={(id: any)=>{
+                    setSearch({glassoryDetailsId: id})
+                }}
+        /> )
 }

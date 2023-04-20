@@ -6,10 +6,17 @@ import Link from "../../ui/Link";
 
 interface Props{
     readonly onChangeTest: (value: any) => void;
+    readonly editTest: (value: any) => void;
+    readonly deleteTest: (value: any) => void;
     readonly data: any;
 }
 
-export default function AdminTestTable({onChangeTest, data}:Props){
+export default function AdminTestTable({
+    onChangeTest, 
+    data,
+    editTest,
+    deleteTest
+}:Props){
 
     const headers: HeaderProps[] = [
        
@@ -26,21 +33,14 @@ export default function AdminTestTable({onChangeTest, data}:Props){
             width: 80,
         },
         {
-            access: "testTitle",
+            access: "name",
             header: "Test Name",
             width: 300,
         },
         {
-            access: "testStatus",
-            header: "Test Status",
-            width: 200,
-            ceil: (row: any)=>{
-                return (
-                           <span>
-                            {row.testStatus? "Active": "No Active"}
-                           </span>
-                        )
-            },
+            access: "description",
+            header: "Description",
+            width: 300,
         },
         {   
             access: "actions",
@@ -50,13 +50,13 @@ export default function AdminTestTable({onChangeTest, data}:Props){
                         <div className="d-flex">
                         <TableButton
                             className="bg-warning"
-                            onClick={()=>console.log(row)}
+                            onClick={()=>editTest(row)}
                             >
                             <EditIcon color="white" size={14}/>
                         </TableButton>
                         <TableButton
                             className="bg-danger ms-2"
-                            onClick={()=>console.log(row)}
+                            onClick={()=>deleteTest(row)}
                             >
                             <DeleteIcon color="white" size={14}/>
                         </TableButton>

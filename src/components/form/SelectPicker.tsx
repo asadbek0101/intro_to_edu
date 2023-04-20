@@ -34,9 +34,6 @@ export default function SelectPicker({onChange, defaultValue, label, name, compo
         }
     },[setBgColor, isBgColor])
 
-    console.log(meta)
-
-
     return (
         <div className='w-100 select-container'>
            {label && (

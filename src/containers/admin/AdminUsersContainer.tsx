@@ -13,10 +13,17 @@ export default function AdminUsersContainer(){
     return (
         <AdminContainerLayout>
             {pageType === ContainerPageType.Table && (
-                <AdminUserTableWrapper create={()=>setSearch({pageType: ContainerPageType.Form})}/>
+                <AdminUserTableWrapper 
+                    create={()=>setSearch({pageType: ContainerPageType.Form})}
+                    editUser={(value: any)=>{
+                        const userId: any = Number(value.id)
+                        setSearch({pageType: ContainerPageType.Form, userId: userId})
+                    }}
+                    />
             )}
             {pageType === ContainerPageType.Form && (
-                <AdminUserFormWrapper back={()=>setSearch({pageType: ContainerPageType.Table})}/>
+                <AdminUserFormWrapper 
+                        back={()=>setSearch({pageType: ContainerPageType.Table})}/>
             )}
         </AdminContainerLayout>
     )

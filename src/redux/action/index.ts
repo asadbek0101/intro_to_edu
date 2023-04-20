@@ -6,10 +6,16 @@ export const set_menu_status = (menuStatus: any)=>{
     }
 }
 
-
 export const set_user_profile = (token: any) => {
     return {
         type: "SET_USER_PROFILE",
+        payload: token
+    }
+}
+
+export const set_token = (token: any) => {
+    return {
+        type: "SET_TOKEN",
         payload: token
     }
 }

@@ -15,8 +15,9 @@ interface AuthRegisterFormProps{
 
 const validationSchama = object({
     email: string().email('Invalid email').required('Required'),
-    username: string().required("Required"),
-    password: string().required("Required!")
+    fullName: string().required("Required"),
+    password: string().required("Required!"),
+    phoneNumber: string().required("Required")
 })
 
 export default function AuthRegisterForm({
@@ -32,9 +33,9 @@ export default function AuthRegisterForm({
         }))
     },[setInitialValues])
   
-    const onChangeUsername = useCallback((value: any)=>{
+    const onChangePhoneNumber = useCallback((value: any)=>{
         setInitialValues((prev: any) => update(prev, {
-            username: value.target.value
+            phoneNumber: value.target.value
         }))
     },[setInitialValues])
 
@@ -43,7 +44,12 @@ export default function AuthRegisterForm({
             password: value.target.value
         }))
     },[setInitialValues])
-
+    
+    const onChangeFullName = useCallback((value: any)=>{
+        setInitialValues((prev: any) => update(prev, {
+            fullName: value.target.value
+        }))
+    },[setInitialValues])
 
     return (
        <div className="auth-form" style={{width: '400px'}} >
@@ -61,6 +67,14 @@ export default function AuthRegisterForm({
               <div className="row">
                 <div className="col-12">
                 <InputField
+                    label="Full Name"
+                    name="fullName"
+                    value={initialValues.fullName}
+                    onChange={(value: any)=>onChangeFullName(value)}
+                    />
+                </div>
+                <div className="col-12">
+                <InputField
                     label="Email"
                     name="email"
                     value={initialValues.email}
@@ -69,10 +83,10 @@ export default function AuthRegisterForm({
                 </div>
                 <div className="col-12">
                 <InputField
-                    label="Username"
-                    name="username"
-                    value={initialValues.username}
-                    onChange={(value: any)=>onChangeUsername(value)}
+                    label="Phone Number"
+                    name="phoneNubmer"
+                    value={initialValues.phoneNumber}
+                    onChange={(value: any)=>onChangePhoneNumber(value)}
                     />
                 </div>
                  <div className="col-12 mt-2">
