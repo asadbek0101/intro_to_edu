@@ -14,13 +14,13 @@ export default function TestMenu({
             <>
                 {menu?(
                     <div className="row">
-                    {menu.map((menuItem: any)=>{
+                    {menu.map((menuItem: any, index: number)=>{
                         const data = {
                             title: menuItem.name,
                             id: menuItem.id
                         }
                         return (
-                           <div className="col-3 mt-4">
+                           <div key={index} className="col-3 mt-4">
                              <Card 
                                 entity={data}
                                 setEntity={(value: any)=>onChangeMenu(value)}/>

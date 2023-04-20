@@ -21,7 +21,7 @@ export default function AdminArticleTableWrapper({
     const [articleTitles, setArticleTitles] = useState([])
 
     useEffect(()=>{
-        ArticleApi.getAllAricleTitles().then((response: any)=>setArticleTitles(response.data.data)).catch((error: any)=>console.log(error))
+        ArticleApi.getAllAricleTitles().then((response: any)=>setArticleTitles(response.data.data)).catch((error: any)=>toast.error(error.message))
     },[ArticleApi, setArticleTitles])
 
     const deleteArticle = useCallback((value: any)=>{

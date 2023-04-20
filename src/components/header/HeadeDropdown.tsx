@@ -17,7 +17,7 @@ export default function HeaderDropdown({handleClick, profile}:Props){
     },[profile, setIsRole])
 
     return (
-        <div className="dropdown">
+        <div className="dropdown ms-3">
         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Menu
         </button>

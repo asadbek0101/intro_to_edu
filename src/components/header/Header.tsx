@@ -1,16 +1,16 @@
 import "./assets/header.scss";
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState } from "react";
 import Logo from "../ui/Logo";
 import Marquee from "react-fast-marquee";
 import Modal from "../modal/Modal";
 import AuthFormWrapper from "../auth/AuthFormWrapper";
-import { USERS } from "../admin/data/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { set_token } from "../../redux/action";
 import HeaderDropdown from "./HeadeDropdown";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ResultTableWrapper from "../result/ResultTableWrapper";
 
 enum RoleType{
     SuperAdmin = "super-admin",
@@ -21,6 +21,7 @@ enum RoleType{
 export default function Header(){
     const dispatch = useDispatch();
     const [isModal, setIsModal] = useState(false);
+    const [isModalResult, setIsModalResult] = useState(false);
     const profile = useSelector((state: any)=>state.data.profile) 
 
     const navigator = useNavigate();
@@ -29,14 +30,14 @@ export default function Header(){
         axios.post("http://16.16.110.106:8080/api/v1/auth/register", value).then((response: any)=> {
             toast.success("Siz ro'yxatdan o'tdingiz!")
             window.location.reload()
-        }).catch((error: any)=>console.log(error))
+        }).catch((error: any)=>toast.error(error.message))
     },[axios])
 
     const login = useCallback((value: any)=>{
         axios.post("http://16.16.110.106:8080/api/v1/auth/login", value).then((response: any)=> {
             dispatch(set_token(response.data.data.accessToken))
             window.location.reload()
-        }).catch((error: any)=>console.log(error))
+        }).catch((error: any)=>toast.error(error.message))
     },[dispatch, axios, set_token])
 
     const handleClick = useCallback((value: any)=>{
@@ -44,12 +45,14 @@ export default function Header(){
             navigator("/admin/users")
         }else if(value === "Main"){
             navigator("/")
+        }else if(value === "Result"){
+            setIsModalResult(true)
         }else if(value === "Logout"){
             navigator("/")
             localStorage.removeItem("TOKEN")
             window.location.reload()
         }
-    },[navigator])
+    },[navigator, localStorage, window])
 
     return (
         <header id="user-header">
@@ -94,6 +97,14 @@ export default function Header(){
                             register={register}
                             login={login}
                         />
+                    </Modal>
+                    <Modal
+                        show={isModalResult}
+                        closeHandler={()=>setIsModalResult(false)}
+                        className="d-flex justify-content-center  align-items-center"
+                        width="800px"
+                        >
+                        <ResultTableWrapper/>
                     </Modal>
                 </div>
             </div>

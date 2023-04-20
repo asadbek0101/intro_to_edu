@@ -4,6 +4,7 @@ import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
 import { useCallback, useEffect, useState } from "react";
 import ArticleMenu from "./ArticleMenu";
 import { useArticleApiContext } from "../../api/article/ArticleApiContext";
+import { toast } from "react-toastify";
 
 export default function GlassoryMenuWrapper(){
 
@@ -16,7 +17,7 @@ export default function GlassoryMenuWrapper(){
         ArticleApi.getAllAricleTitles().then((response: any)=>{
             setArticles(response.data.data)
         }).catch((error: any)=>{
-            console.log(error)
+            toast.error(error.message)
         })
     },[ArticleApi, setArticles])
 

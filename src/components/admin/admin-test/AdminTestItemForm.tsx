@@ -61,6 +61,8 @@ export default function AdminTestItemForm({
         }))
     },[setInitialValues, initialValues.answers])
 
+    console.log(initialValues)
+
     return (
         <Formik
             initialValues={initialValues}
@@ -75,7 +77,7 @@ export default function AdminTestItemForm({
                             <GroupBox title="New Question">
                                <div className="row">
                                 <div className="col-12">
-                                    <TextAreaField label="Question" name="question" onChange={(event: any)=>onChangeQuestion(event.target.value)}/>
+                                    <TextAreaField label="Question" name="title" value={initialValues.title} onChange={(event: any)=>onChangeQuestion(event.target.value)}/>
                                     {initialValues && initialValues.answers.map((item: any, index: number)=>{
                                         return (
                                             <InputGroup label={`Answer ${index + 1}`} className="my-2">

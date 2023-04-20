@@ -3,6 +3,7 @@ import Title from "../ui/Title";
 import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
 import { useCallback, useEffect, useState } from "react";
 import GlassoryMenu from "./GlassoryMenu";
+import { toast } from "react-toastify";
 
 export default function GlassoryMenuWrapper(){
 
@@ -15,7 +16,7 @@ export default function GlassoryMenuWrapper(){
         GlossaryApi.getAllGlossares().then((response: any)=>{
             setGlassores(response.data.data)
         }).catch((error: any)=>{
-            console.log(error)
+            toast.error(error.message)
         })
     },[GlossaryApi, setGlassores])
 

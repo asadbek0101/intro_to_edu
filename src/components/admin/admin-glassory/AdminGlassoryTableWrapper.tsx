@@ -21,7 +21,7 @@ export default function AdminGlassoryTableWrapper({
     const [glossares, setGlossares] = useState([])
 
     useEffect(()=>{
-        GlossaryApi.getAllGlossares().then((response: any)=>setGlossares(response.data.data)).catch((error: any)=>console.log(error))
+        GlossaryApi.getAllGlossares().then((response: any)=>setGlossares(response.data.data)).catch((error: any)=>toast.error(error.message))
     },[GlossaryApi, setGlossares])
 
     const deleteGlassory = useCallback((value: any)=>{

@@ -4,6 +4,7 @@ import TestViewLayout from "./TestViewLayout";
 import { TEST_DATA } from "./test";
 import { useParams } from "react-router-dom";
 import { useTestApiContext } from "../../api/test/TestApiContext";
+import { toast } from "react-toastify";
 
 export default function TestViewWrapper(){
     const { tab } = useParams();
@@ -21,7 +22,7 @@ export default function TestViewWrapper(){
             TestApi.getQuestions(body).then((response: any)=>{
                 setTestArray(response.data.data)
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[TestApi, tab, setTestArray])
@@ -35,7 +36,7 @@ export default function TestViewWrapper(){
         TestApi.checkAnswer(data).then((response: any)=>{
                 console.log(response)
         }).catch((error: any)=>{
-            console.log(error)
+            toast.error(error.message)
         })
     },[TestApi])
 

@@ -56,7 +56,7 @@ export default function AdminTestForm({
                 <Form>
                     <div className="row">
                         <div className="col-6">
-                        <GroupBox title="New Article">
+                        <GroupBox title="New Test">
                            <div className="row">
                             <div className="col-12 mt-2">
                             <InputField

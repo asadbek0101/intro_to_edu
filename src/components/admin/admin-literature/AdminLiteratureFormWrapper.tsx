@@ -30,7 +30,7 @@ export default function AdminLiteratureFormWrapper({back}:Props){
                     type: response.data.data.literatureType
                 }
                 setInitialValues(data);
-            }).catch((error: any)=>console.log(error))
+            }).catch((error: any)=>toast.error(error.message))
         }
     },[LiteratureApi, setInitialValues])
 

@@ -27,7 +27,7 @@ export default function AdminTestFormWrapper({back}:Props){
             TestApi.getTestById(testId).then((response: any)=>{
                 setInitialValues(response.data.data)
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[TestApi, testId])
@@ -38,14 +38,14 @@ export default function AdminTestFormWrapper({back}:Props){
                 toast.success("Quiz Updated!")
                 setSearch({pageType: ContainerPageType.Table})
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }else{
             TestApi.createTest(value).then(()=>{
                 toast.success("Quiz Added!")
                 setSearch({pageType: ContainerPageType.Table})
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[TestApi, toast])

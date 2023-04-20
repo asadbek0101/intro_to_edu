@@ -30,7 +30,7 @@ export default function AdminArticlePartFormWrapper({back}:Props){
                     name: response.data.data.articleTitleDTO.name,
                     details: response.data.data.articleDTO.articleContent
                 }))
-            }).catch((error: any)=>console.log(error))
+            }).catch((error: any)=>toast.error(error.message))
         }
     },[ArticleApi, setInitialValues, articlePartId])
 

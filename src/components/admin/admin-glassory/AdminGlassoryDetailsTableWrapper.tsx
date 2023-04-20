@@ -28,7 +28,7 @@ export default function AdminGlassoryDetailsTableWrapper({
             GlossaryApi.getAllGlossaryDetails(glossaryId).then((response: any)=>{
                 setData(response.data.data)
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[GlossaryApi, setData])

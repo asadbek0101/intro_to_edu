@@ -23,7 +23,7 @@ export default function AdminArticleFormWrapper({back}:Props){
 
     useEffect(()=>{
         if(articleId){
-            ArticleApi.getArticleTitleById(articleId).then((response: any)=>setInitialValues(response.data.data)).catch((error: any)=>console.log(error))
+            ArticleApi.getArticleTitleById(articleId).then((response: any)=>setInitialValues(response.data.data)).catch((error: any)=>toast.error(error.message))
         }
     },[ArticleApi, articleId, setInitialValues])
 

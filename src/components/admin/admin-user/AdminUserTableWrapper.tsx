@@ -20,7 +20,7 @@ export default function AdminUserTableWrapper({create, editUser}:Props){
     const [users, setUsers] = useState();
  
     useEffect(()=>{
-        UserApi.getAllUsers().then((response: any)=>setUsers(response.data.data)).catch((error: any)=>console.log(error))
+        UserApi.getAllUsers().then((response: any)=>setUsers(response.data.data)).catch((error: any)=>toast.error(error.message))
     },[UserApi])
 
     const deleteUser = useCallback((value: any)=>{

@@ -23,9 +23,10 @@ export default function AppDashboard({
         <div className="app-dashboard-layout">   
             <div className="app-dashboard-menu-wrapper">
                 <div className="app-dashboard-menu">
-                    {menu && menu.map((menuItem: AppDashboardMenuProps)=>{
+                    {menu && menu.map((menuItem: AppDashboardMenuProps, index: number)=>{
                         return (
                             <div 
+                                key={index}
                                 className={`app-dashboard-menu-item ${activeTab === menuItem.id ? "active-dashboard-menu-item" : ""}`}
                                 onClick={()=>onChangeTab(menuItem.id)}
                                 >

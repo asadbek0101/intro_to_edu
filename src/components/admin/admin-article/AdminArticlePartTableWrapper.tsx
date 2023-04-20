@@ -26,7 +26,7 @@ export default function AdminArticlePartTableWrapper({
 
     useEffect(()=>{
         if(articleId){
-            ArticleApi.getArticlePartsById(articleId).then((response: any)=>setArticleParts(response.data.data)).catch((error: any)=>console.log(error))
+            ArticleApi.getArticlePartsById(articleId).then((response: any)=>setArticleParts(response.data.data)).catch((error: any)=>toast.error(error.message))
         }
     },[ArticleApi, setArticleParts])
 

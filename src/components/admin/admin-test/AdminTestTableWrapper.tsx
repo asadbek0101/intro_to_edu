@@ -24,7 +24,7 @@ export default function AdminTestTableWrapper({
         TestApi.getAllTests().then((response: any)=>{
             setData(response.data.data)
         }).catch((error: any)=>{
-            console.log(error)
+            toast.error(error.message)
         })
     },[TestApi, setData])
 

@@ -27,7 +27,7 @@ export default function AdminUserFormWrapper({back}:Props){
 
     useEffect(()=>{
         if(userId){
-            UserApi.getUserById(userId).then((response: any)=>setInitialValues(response.data.data)).catch((error: any)=>console.log(error))
+            UserApi.getUserById(userId).then((response: any)=>setInitialValues(response.data.data)).catch((error: any)=>toast.error(error.message))
         }
     },[UserApi, userId, setInitialValues])
 

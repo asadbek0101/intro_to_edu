@@ -35,7 +35,7 @@ export default function AdminTestDetailsFormWrapper({back}:Props){
             TestApi.getQuizQuestions(Number(testId)).then((response: any)=>{
                 setCheckTest(response.data.data)
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[testId, TestApi, setCheckTest])
@@ -48,6 +48,15 @@ export default function AdminTestDetailsFormWrapper({back}:Props){
                 title: value.question,
                 answers: value.answers  
             }
+            TestApi.updateTestQuiz(data).then((response: any)=>{
+                search.set("test",AdminTestDetailTabs.TestList);
+                toast.success("Updatad!")
+                setSearch(search);
+                window.location.reload()
+            }).catch((error: any)=>{
+                toast.error(error.message)
+                toast.success("Not Updatad!")
+            })
         }else {
             const data = {
                 quizTypeId: testId,
@@ -55,21 +64,36 @@ export default function AdminTestDetailsFormWrapper({back}:Props){
                 answers: value.answers  
             }
             TestApi.createQuizQuestion(data).then((response: any)=>{
-                console.log(response)
                 search.set("test",AdminTestDetailTabs.TestList);
+                toast.success("Added!")
                 setSearch(search);
                 window.location.reload()
             }).catch((error: any)=>{
-                console.log(error)
+                toast.success("Not Added!")
+                toast.error(error.message)
             })
         }
 
     },[TestApi])
 
     const updateQuestion = useCallback((value: any)=>{
-        
-    },[])
+        search.set("testDetailsId", value.id)
+        search.set("test", AdminTestDetailTabs.TestEdit)
+        setSearch(search)
+    },[search, setSearch, AdminTestDetailTabs])
     
+    useEffect(()=>{
+        if(testDetailsId){
+            TestApi.getQuizQuestionById(Number(testDetailsId)).then((response: any)=>{
+                setInitialValues(response.data.data)
+            }).catch((error: any)=>{
+                toast.error(error.message)
+            })
+        }
+    },[TestApi,testDetailsId, setInitialValues ])
+
+    console.log(initialValues)
+
     const deleteQuestion = useCallback((value: any)=>{
             TestApi.deleteQuizQuestion(Number(value.id)).then(()=>{
                toast.success("Deleted!")

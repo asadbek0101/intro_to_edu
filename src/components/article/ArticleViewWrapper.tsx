@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useGlossaryApiContext } from "../../api/glossary/GlossaryApiContext";
 import ArticleView from "./ArticleView";
 import { useArticleApiContext } from "../../api/article/ArticleApiContext";
+import { toast } from "react-toastify";
 
 export default function GlassoryViewWrapper(){
 
@@ -28,7 +29,7 @@ export default function GlassoryViewWrapper(){
                     setArticleDetailsMenu((prev: any)=>[...prev, data])
                 })
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[ArticleApi, setArticleDetailsMenu, tab])
@@ -39,7 +40,7 @@ export default function GlassoryViewWrapper(){
             ArticleApi.getArticlePartById(articleDetailsId).then((response: any)=>{
                 setArticleDetails(response.data.data.articleDTO)
             }).catch((error: any)=>{
-                console.log(error)
+                toast.error(error.message)
             })
         }
     },[ArticleApi, setArticleDetails, articleDetailsId])

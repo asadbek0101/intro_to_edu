@@ -28,7 +28,7 @@ export default function AdminGlassoryDetailsFormWrapper({back}:Props){
         if(glossaryDetailsId){
             GlossaryApi.getGlossaryDetailsById(glossaryDetailsId).then((response: any)=>{
                 setInitialValues(response.data.data)
-            }).catch((error: any)=>console.log(error))
+            }).catch((error: any)=>toast.error(error.message))
         }
     },[GlossaryApi, setInitialValues, glossaryDetailsId])
 

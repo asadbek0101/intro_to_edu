@@ -41,4 +41,12 @@ export class TestApi extends ApiContext{
     public deleteQuizQuestion(id: number):Promise<any>{
         return this.delete(`/question/delete/${id}`)
     }
+
+    public getQuizQuestionById(id: number):Promise<any>{
+        return this.get(`/question/get/${id}`)
+    }
+
+    public updateTestQuiz(body:any){
+        return this.put("/question/update", body)
+    }
 }

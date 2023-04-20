@@ -14,7 +14,7 @@ export default function AppLayout({children}:Props){
             </div>
             {children}
 
-            <div className="app-header">
+            <div className="app-footer">
                 <Footer/>
             </div>
         </div>

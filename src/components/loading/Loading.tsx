@@ -6,7 +6,6 @@ export default function Loading(){
 
     useEffect(() => {
         const timer = setTimeout(() => {
-          console.log('This will run after 1 second!')
           setIsLoading(false)
         }, 3000);
         return () => clearTimeout(timer);
