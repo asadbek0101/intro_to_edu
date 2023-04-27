@@ -13,6 +13,13 @@ export enum SizeType{
     Medium = "medium"
 }
 
+export enum PositionType{
+    Top = "top",
+    Left = "left",
+    Right = "right",
+    Bottom = "bottom"
+}
+
 export type InputProps = React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>, 
     HTMLInputElement
