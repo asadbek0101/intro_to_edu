@@ -27,14 +27,14 @@ export default function Header(){
     const navigator = useNavigate();
 
     const register = useCallback((value: any)=>{
-        axios.post("http://16.16.110.106:8080/api/v1/auth/register", value).then((response: any)=> {
+        axios.post("https://jarvis-jon.uz:8443/api/v1/auth/register", value).then((response: any)=> {
             toast.success("Siz ro'yxatdan o'tdingiz!")
             window.location.reload()
         }).catch((error: any)=>toast.error(error.message))
     },[axios])
 
     const login = useCallback((value: any)=>{
-        axios.post("http://16.16.110.106:8080/api/v1/auth/login", value).then((response: any)=> {
+        axios.post("https://jarvis-jon.uz:8443/api/v1/auth/login", value).then((response: any)=> {
             dispatch(set_token(response.data.data.accessToken))
             window.location.reload()
         }).catch((error: any)=>toast.error(error.message))
