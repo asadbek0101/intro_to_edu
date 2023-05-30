@@ -40,9 +40,13 @@ export default function TestViewWrapper(){
         })
     },[TestApi])
 
+    const submitTest = useCallback(()=>{
+        console.log("This method is submit ...")
+    },[])
+
     return (
         <TestViewLayout 
-            submitTest={()=>console.log("Tugadi")}
+            submitTest={submitTest}
             data={testArray}>
             <TestView 
                 data={testArray} 
